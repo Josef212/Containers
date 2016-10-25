@@ -16,5 +16,8 @@
     <ClInclude Include="Globals.h">
       <Filter>Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
