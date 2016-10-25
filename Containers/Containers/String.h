@@ -184,6 +184,22 @@ public:
 		return (*this);
 	}
 
+	//------------
+
+	/** Returns data in the specified location. */
+	const char operator[] (uint index)const
+	{
+		assert(index > 0 && index < length);
+		return str[index];
+	}
+
+	/** Returns data in the specified location and grant acces to it. */
+	char operator[] (uint index)
+	{
+		assert(index > 0 && index < length);
+		return str[index];
+	}
+
 //------------------------------------------------------------
 
 	/** Add givent char* at the begining of the string and return the string. */
