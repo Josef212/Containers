@@ -8,7 +8,7 @@ typedef unsigned int uint;
 
 #define LOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__)
 
-void log(const char file[], int line, const char* format)
+void log(const char file[], int line, const char* format, ...)
 {
 	static char tmpString[4096];
 	static char tmpString2[4096];
@@ -25,8 +25,24 @@ void log(const char file[], int line, const char* format)
 #endif // _DEBUG
 }
 
-#define RELEASE(x) (x != nullptr) ? delete x; x = nullptr : 0
-#define RELEASE_ARRAY(x) (x != nullptr) ? delete[] x; x = nullptr : 0
+#define RELEASE( x )\
+    {\
+       if( x != nullptr )\
+       {\
+         delete x;\
+	     x = nullptr;\
+       }\
+    }
+
+// Deletes an array of buffers
+#define RELEASE_ARRAY( x )\
+	{\
+       if( x != nullptr )\
+       {\
+           delete[] x;\
+	       x = nullptr;\
+		 }\
+	 }
 
 template<class TYPE>
 void swap(TYPE& a, TYPE& b)
@@ -39,6 +55,6 @@ void swap(TYPE& a, TYPE& b)
 #define MIN(a, b) (a<b ? a:b)
 #define MAX(a, b) (a>b ? a:b)
 
-uint factorial(uint n) { return (n > 0) ? (return n*factorial(n - 1)) : return 1; }
+uint factorial(uint n) { return (n > 0) ? (n*factorial(n - 1)) : 1; }
 
 #endif // !__GLOBALS__
