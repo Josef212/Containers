@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <stdio.h>
 
+typedef unsigned int uint;
+
 #define LOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__)
 
 void log(const char file[], int line, const char* format)
@@ -26,6 +28,17 @@ void log(const char file[], int line, const char* format)
 #define RELEASE(x) (x != nullptr) ? delete x; x = nullptr : 0
 #define RELEASE_ARRAY(x) (x != nullptr) ? delete[] x; x = nullptr : 0
 
-typedef unsigned int uint;
+template<class TYPE>
+void swap(TYPE& a, TYPE& b)
+{
+	TYPE tmp = a;
+	a = b;
+	b = tmp;
+}
+
+#define MIN(a, b) (a<b ? a:b)
+#define MAX(a, b) (a>b ? a:b)
+
+uint factorial(uint n) { return (n > 0) ? (return n*factorial(n - 1)) : return 1; }
 
 #endif // !__GLOBALS__
