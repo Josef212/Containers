@@ -2,6 +2,7 @@
 #define __TREE__
 
 #include <list>
+#include <vector>
 
 /** Helper class to contain tree data and tree hierarchy. */
 template<class TYPE>
@@ -68,10 +69,26 @@ public:
 	~treeNode()
 	{
 	}
+	
+	void collectChilds(std::list<TYPE>& toFill)
+	{
+		for (std::list<treeNode*>::iterator it = childs.begin(); it != childs.end; ++it)
+		{
+			toFill.push_back(data);
+			(*it)->collectChilds(toFill);
+		}
+	}
 
+	void collectChilds(std::vector<TYPE>& toFill)
+	{
+		for (std::list<treeNode*>::iterator it = childs.begin(); it != childs.end; ++it)
+		{
+			toFill.push_back(data);
+			(*it)->collectChilds(toFill);
+		}
+	}
 
-
-private:
+public:
 	TYPE data;
 	treeNode* parent = nullptr;
 	std::list<treeNode*> childs;
@@ -109,11 +126,22 @@ public:
 	}
 
 
-
 	void clear()
 	{
 		if (root)
 			root->delSons();
+	}
+
+	void collectChilds(std::list<TYPE>& toFill)
+	{
+		if (root)
+			root->collectChilds(toFill);
+	}
+
+	void collectChilds(std::vector<TYPE>& toFill)
+	{
+		if (root)
+			root->collectChilds(toFill);
 	}
 
 private:
