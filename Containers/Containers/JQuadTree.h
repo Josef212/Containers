@@ -24,7 +24,10 @@ public:
 	void coollectBoxes(std::vector<AABB>& vec);
 	void coollectGO(std::vector<GameObject*>& vec);
 	//TODO: intersection funct(template for primitives)
+	/*template<class TYPE>
+	void collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive);*/
 
+	void collectCandidates(std::vector<GameObject*>& vec, const Frustum& frustum);
 
 	void divideNode();
 	void ajustNode();
@@ -33,7 +36,7 @@ public:
 public:
 	AABB box;
 	std::list<GameObject*> objects;
-	treeNode* parent = NULL;
+	treeNode* parent = nullptr;
 	treeNode* childs[4];
 };
 
@@ -53,8 +56,13 @@ public:
 	void setRoot(const AABB& _box);
 	void clear();
 
+	/*template<class TYPE>
+	void collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive);*/
+
+	void collectCandidates(std::vector<GameObject*>& vec, const Frustum& primitive);
+
 public:
-	treeNode* rootNode = NULL;
+	treeNode* rootNode = nullptr;
 };
 
 

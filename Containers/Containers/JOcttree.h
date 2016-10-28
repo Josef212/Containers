@@ -30,10 +30,15 @@ public:
 	void ajustNode();
 	bool intersectsAllChilds(const AABB& _box);
 
+	/*template<class TYPE>
+	void collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive);*/
+
+	void collectCandidates(std::vector<GameObject*>& vec, const Frustum& frustum);
+
 public:
 	AABB box;
 	std::list<GameObject*> objects;
-	oTreeNode* parent = NULL;
+	oTreeNode* parent = nullptr;
 	oTreeNode* childs[8];
 };
 
@@ -53,8 +58,13 @@ public:
 	void setRoot(const AABB& _box);
 	void clear();
 
+	/*template<class TYPE>
+	void collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive);*/
+
+	void collectCandidates(std::vector<GameObject*>& vec, const Frustum& primitive);
+
 public:
-	oTreeNode* rootNode = NULL;
+	oTreeNode* rootNode = nullptr;
 };
 
 

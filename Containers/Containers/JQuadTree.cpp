@@ -1,6 +1,5 @@
 #include "JQuadTree.h"
 #include "GameObject.h"
-#include "Globals.h"
 
 #define MAX_NODE_OBJECTS 8
 
@@ -12,7 +11,7 @@
 
 treeNode::treeNode(const AABB& _box) : box(_box)
 {
-	childs[0] = childs[1] = childs[2] = childs[3] = parent = NULL;
+	childs[0] = childs[1] = childs[2] = childs[3] = parent = nullptr;
 }
 
 treeNode::~treeNode()
@@ -24,11 +23,11 @@ void treeNode::insert(GameObject* obj)
 	if (!obj)
 		return;
 
-	if (childs[0] == NULL && objects.size() < MAX_NODE_OBJECTS)
+	if (childs[0] == nullptr && objects.size() < MAX_NODE_OBJECTS)
 		objects.push_back(obj);
 	else
 	{
-		if (childs[0] == NULL)
+		if (childs[0] == nullptr)
 			divideNode();
 
 		objects.push_back(obj);
@@ -47,8 +46,8 @@ void treeNode::erase(GameObject* obj)
 			++it;
 	}
 
-	if (childs[0] != NULL)
-		for (uint i = 0; i < 4; ++i)
+	if (childs[0] != nullptr)
+		for (unsigned int i = 0; i < 4; ++i)
 			if (childs[i])childs[i]->erase(obj);
 }
 
@@ -59,8 +58,8 @@ void treeNode::coollectBoxes(std::vector<AABB>& vec)
 		vec.push_back((*it)->aabb);
 	}
 
-	for (uint i = 0; i < 4; ++i)
-		if (childs[i] != NULL)
+	for (unsigned int i = 0; i < 4; ++i)
+		if (childs[i] != nullptr)
 			childs[i]->coollectBoxes(vec);
 }
 
@@ -71,8 +70,8 @@ void treeNode::coollectGO(std::vector<GameObject*>& vec)
 		vec.push_back((*it));
 	}
 
-	for (uint i = 0; i < 4; ++i)
-		if (childs[i] != NULL)
+	for (unsigned int i = 0; i < 4; ++i)
+		if (childs[i] != nullptr)
 			childs[i]->coollectGO(vec);
 }
 
@@ -107,7 +106,7 @@ void treeNode::divideNode()
 	tmp.SetFromCenterAndSize(center2, size2);
 	childs[3] = new treeNode(tmp);
 
-	for (uint i = 0; i < 4; ++i)
+	for (unsigned int i = 0; i < 4; ++i)
 		childs[i]->parent = this;
 }
 
@@ -122,7 +121,7 @@ void treeNode::ajustNode()
 		else
 		{
 			it = objects.erase(it);
-			for (uint i = 0; i < 4; ++i)
+			for (unsigned int i = 0; i < 4; ++i)
 				if (box.Intersects(tmp->aabb)) //box.MinimalEnclosingAABB().Intersects()
 					insert(tmp);
 		}
@@ -131,15 +130,37 @@ void treeNode::ajustNode()
 
 bool treeNode::intersectsAllChilds(const AABB& _box)
 {
-	uint count = 0;
+	unsigned int count = 0;
 
-	for (uint i = 0; i < 4; ++i)
+	for (unsigned int i = 0; i < 4; ++i)
 		if (box.Intersects(_box)) //box.MinimalEnclosingAABB().Intersects()
 			++count;
 
 	return count == 4;
 }
 
+/*template<class TYPE>
+void treeNode::collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive)
+{
+	if (primitive.Intersects(box))
+		for (std::vector<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it)
+			if (primitive.Intersects((*it)->aabb))
+				vec.push_back((*it));
+
+	for (unsigned int i = 0; i < 4; ++i)
+		if (childs[i])childs[i]->collectCandidates(vec, primitive);
+}*/
+
+void treeNode::collectCandidates(std::vector<GameObject*>& vec, const Frustum& frustum)
+{
+	if (frustum.Intersects(box))
+		for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it)
+			if (frustum.Intersects((*it)->aabb))
+				vec.push_back((*it));
+
+	for (unsigned int i = 0; i < 4; ++i)
+		if (childs[i])childs[i]->collectCandidates(vec, frustum);
+}
 
 //---------------------------------------------------
 //---------------JQuadTree---------------------------
@@ -172,7 +193,7 @@ void JQuadTree::erase(GameObject* obj)
 void JQuadTree::setRoot(const AABB& _box)
 {
 	if (rootNode)
-		RELEASE(rootNode);
+		delete(rootNode);
 
 	rootNode = new treeNode(_box);
 }
@@ -181,5 +202,21 @@ void JQuadTree::clear()
 {
 
 	if (rootNode)
-		RELEASE(rootNode);
+		delete(rootNode);
+	rootNode = nullptr;
+}
+
+/*template<class TYPE>
+void JQuadTree::collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive)
+{
+	if (rootNode)
+		if (primitive.Intersects(rootNode->box))
+			rootNode->collectCandidates(vec, primitive);
+}*/
+
+void JQuadTree::collectCandidates(std::vector<GameObject*>& vec, const Frustum& frustum)
+{
+	if (rootNode)
+		if (frustum.Intersects(rootNode->box))
+			rootNode->collectCandidates(vec, frustum);
 }

@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "JOcttree.h"
 #include "GameObject.h"
 
@@ -11,9 +10,9 @@
 
 oTreeNode::oTreeNode(const AABB& _box) : box(_box)
 {
-	parent = NULL;
-	for (uint i = 0; i < 8; ++i)
-		childs[i] = NULL;
+	parent = nullptr;
+	for (unsigned int i = 0; i < 8; ++i)
+		childs[i] = nullptr;
 }
 
 oTreeNode::~oTreeNode()
@@ -25,11 +24,11 @@ void oTreeNode::insert(GameObject* obj)
 	if (!obj)
 		return;
 
-	if (childs[0] == NULL && objects.size() < MAX_NODE_OBJECTS)
+	if (childs[0] == nullptr && objects.size() < MAX_NODE_OBJECTS)
 		objects.push_back(obj);
 	else
 	{
-		if (childs[0] == NULL)
+		if (childs[0] == nullptr)
 			divideNode();
 
 		objects.push_back(obj);
@@ -48,8 +47,8 @@ void oTreeNode::erase(GameObject* obj)
 			++it;
 	}
 
-	if (childs[0] != NULL)
-		for (uint i = 0; i < 8; ++i)
+	if (childs[0] != nullptr)
+		for (unsigned int i = 0; i < 8; ++i)
 			if (childs[i])childs[i]->erase(obj);
 }
 
@@ -60,8 +59,8 @@ void oTreeNode::coollectBoxes(std::vector<AABB>& vec)
 		vec.push_back((*it)->aabb);
 	}
 
-	for (uint i = 0; i < 8; ++i)
-		if (childs[i] != NULL)
+	for (unsigned int i = 0; i < 8; ++i)
+		if (childs[i] != nullptr)
 			childs[i]->coollectBoxes(vec);
 }
 
@@ -72,8 +71,8 @@ void oTreeNode::coollectGO(std::vector<GameObject*>& vec)
 		vec.push_back((*it));
 	}
 
-	for (uint i = 0; i < 8; ++i)
-		if (childs[i] != NULL)
+	for (unsigned int i = 0; i < 8; ++i)
+		if (childs[i] != nullptr)
 			childs[i]->coollectGO(vec);
 }
 
@@ -131,7 +130,7 @@ void oTreeNode::divideNode()
 	tmp.SetFromCenterAndSize(center2, size2);
 	childs[7] = new oTreeNode(tmp);
 
-	for (uint i = 0; i < 8; ++i)
+	for (unsigned int i = 0; i < 8; ++i)
 		childs[i]->parent = this;
 }
 
@@ -146,7 +145,7 @@ void oTreeNode::ajustNode()
 		else
 		{
 			it = objects.erase(it);
-			for (uint i = 0; i < 8; ++i)
+			for (unsigned int i = 0; i < 8; ++i)
 				if (box.Intersects(tmp->aabb)) //box.MinimalEnclosingAABB().Intersects()
 					insert(tmp);
 		}
@@ -155,13 +154,36 @@ void oTreeNode::ajustNode()
 
 bool oTreeNode::intersectsAllChilds(const AABB& _box)
 {
-	uint count = 0;
+	unsigned int count = 0;
 
-	for (uint i = 0; i < 8; ++i)
+	for (unsigned int i = 0; i < 8; ++i)
 		if (box.Intersects(_box)) //box.MinimalEnclosingAABB().Intersects()
 			++count;
 
 	return count == 8;
+}
+
+/*template<class TYPE>
+void oTreeNode::collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive)
+{
+	if (primitive.Intersects(box))
+		for (std::vector<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it)
+			if (primitive.Intersects((*it)->aabb))
+				vec.push_back((*it));
+
+	for (unsigned int i = 0; i < 8; ++i)
+		if (childs[i])childs[i]->collectCandidates(vec, primitive);
+}*/
+
+void oTreeNode::collectCandidates(std::vector<GameObject*>& vec, const Frustum& frustum)
+{
+	if (frustum.Intersects(box))
+		for (std::list<GameObject*>::iterator it = objects.begin(); it != objects.end(); ++it)
+			if (frustum.Intersects((*it)->aabb))
+				vec.push_back((*it));
+
+	for (unsigned int i = 0; i < 8; ++i)
+		if (childs[i])childs[i]->collectCandidates(vec, frustum);
 }
 
 
@@ -196,7 +218,7 @@ void JOctTree::erase(GameObject* obj)
 void JOctTree::setRoot(const AABB& _box)
 {
 	if (rootNode)
-		RELEASE(rootNode);
+		delete(rootNode);
 
 	rootNode = new oTreeNode(_box);
 }
@@ -205,5 +227,21 @@ void JOctTree::clear()
 {
 
 	if (rootNode)
-		RELEASE(rootNode);
+		delete(rootNode);
+	rootNode = nullptr;
+}
+
+/*template<class TYPE>
+void JOctTree::collectCandidates(std::vector<GameObject*>& vec, const TYPE& primitive)
+{
+	if (rootNode)
+		if (primitive.Intersects(rootNode->box))
+			rootNode->collectCandidates(vec, primitive);
+}*/
+
+void JOctTree::collectCandidates(std::vector<GameObject*>& vec, const Frustum& frustum)
+{
+	if (rootNode)
+		if (frustum.Intersects(rootNode->box))
+			rootNode->collectCandidates(vec, frustum);
 }

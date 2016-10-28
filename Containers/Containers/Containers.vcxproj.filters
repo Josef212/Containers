@@ -125,7 +125,9 @@
     <ClCompile Include="JQuadTree.cpp">
       <Filter>Files</Filter>
     </ClCompile>
-    <ClCompile Include="JOcttree.cpp" />
+    <ClCompile Include="JOcttree.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String.h">
