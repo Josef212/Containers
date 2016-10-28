@@ -1,30 +1,45 @@
 /** Quadtree with AABB boxes and gameobjects, created to use on the game engine: JayEngine. */
-#ifndef __J_QUADTREE__
-#define __J_QUADTREE__
+#ifndef __JQUADTREE__
+#define __JQUADTREE__
 
-#include "Globals.h"
 #include "Math.h"
 #include <list>
+#include <vector>
 
 class GameObject;
 
-class TreeNode
+//---------------------------------------------------
+//---------------TreeNode----------------------------
+//---------------------------------------------------
+
+class treeNode
 {
 public:
-	TreeNode(const AABB& box);
-	~TreeNode();
+	treeNode(const AABB& _box);
+	~treeNode();
 
-	void insert(GameObject* object);
-	void erase(GameObject* object);
+	void insert(GameObject* obj);
+	void erase(GameObject* obj);
 
-	void delSons();
+	void coollectBoxes(std::vector<AABB>& vec);
+	void coollectGO(std::vector<GameObject*>& vec);
+	//TODO: intersection funct(template for primitives)
+
+
+	void divideNode();
+	void ajustNode();
+	bool intersectsAllChilds(const AABB& _box);
 
 public:
 	AABB box;
-	TreeNode* parent = nullptr;
 	std::list<GameObject*> objects;
-	TreeNode* childs[4];
+	treeNode* parent = NULL;
+	treeNode* childs[4];
 };
+
+//---------------------------------------------------
+//---------------JQuadTree---------------------------
+//---------------------------------------------------
 
 class JQuadTree
 {
@@ -32,15 +47,15 @@ public:
 	JQuadTree();
 	virtual ~JQuadTree();
 
-	void setRoot(const AABB& box);
-	void insert(GameObject* object);
-	void erase(GameObject* object);
+	void insert(GameObject* obj);
+	void erase(GameObject* obj);
 
+	void setRoot(const AABB& _box);
 	void clear();
 
-
 public:
-	TreeNode* rootNode = nullptr;
+	treeNode* rootNode = NULL;
 };
 
-#endif // !__J_QUADTREE__
+
+#endif // !__JQUADTREE__
