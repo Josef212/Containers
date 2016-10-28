@@ -26,7 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="JQuadTree.cpp" />
     <ClCompile Include="MathGeoLib\include\Algorithm\Random\LCG.cpp">
       <Filter>Files\Helper\Math\Algorithm</Filter>
     </ClCompile>
@@ -123,6 +122,10 @@
     <ClCompile Include="MathGeoLib\include\Time\Clock.cpp">
       <Filter>Files\Helper\Math\Time</Filter>
     </ClCompile>
+    <ClCompile Include="JQuadTree.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JOcttree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String.h">
@@ -322,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="MathGeoLib\include\MathGeoLibFwd.h">
       <Filter>Files\Helper\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="JOcttree.h">
+      <Filter>Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

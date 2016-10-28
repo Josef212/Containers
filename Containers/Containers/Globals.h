@@ -55,6 +55,6 @@ void swap(TYPE& a, TYPE& b)
 #define MIN(a, b) (a<b ? a:b)
 #define MAX(a, b) (a>b ? a:b)
 
-uint factorial(uint n) { return (n > 0) ? (n*factorial(n - 1)) : 1; }
+//uint factorial(uint n) { return (n > 0) ? (n*factorial(n - 1)) : 1; }
 
 #endif // !__GLOBALS__
