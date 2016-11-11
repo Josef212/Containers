@@ -140,14 +140,14 @@ void oTreeNode::ajustNode()
 	while (it != objects.end())
 	{
 		GameObject* tmp = (*it);
-		if (intersectsAllChilds(tmp->aabb))
+		if (intersectsAllChilds(tmp->aabb)) //Optimize that
 			++it; //Let the object in parent if it intersects with all childs
 		else
 		{
 			it = objects.erase(it);
 			for (unsigned int i = 0; i < 8; ++i)
-				if (box.Intersects(tmp->aabb)) //box.MinimalEnclosingAABB().Intersects()
-					insert(tmp);
+				if (childs[i]->box.Intersects(tmp->aabb)) //box.MinimalEnclosingAABB().Intersects()
+					childs[i]->insert(tmp);
 		}
 	}
 }
@@ -157,7 +157,7 @@ bool oTreeNode::intersectsAllChilds(const AABB& _box)
 	unsigned int count = 0;
 
 	for (unsigned int i = 0; i < 8; ++i)
-		if (box.Intersects(_box)) //box.MinimalEnclosingAABB().Intersects()
+		if (childs[i]->box.Intersects(_box)) //box.MinimalEnclosingAABB().Intersects()
 			++count;
 
 	return count == 8;
