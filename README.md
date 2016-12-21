@@ -1,5 +1,5 @@
-# Containers
-Project to create own c++ basic containers.
+# Data structures
+Project to create own c++ basic data structures.
 
 ###String
 
