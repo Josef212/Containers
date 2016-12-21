@@ -331,6 +331,9 @@
     <ClInclude Include="JOcttree.h">
       <Filter>Files</Filter>
     </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\include\Geometry\KDTree.inl">
