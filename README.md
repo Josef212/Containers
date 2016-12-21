@@ -22,5 +22,5 @@ Project to create own c++ basic data structures.
 
 ---------------------------------------------
 
-Get the repository here: https://github.com/Josef212/Containers
+Get the repository here: https://github.com/Josef212/Data-structures
 Check my github here: https://github.com/Josef212
