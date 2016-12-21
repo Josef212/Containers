@@ -18,9 +18,9 @@ public:
 	{
 		if (data == nullptr)
 		{
-			capacity = SMALL_MEM_BLOCK_SIZE;
-			length = 0;
-			data = new TYPE[capacity];
+			_capacity = SMALL_MEM_BLOCK_SIZE;
+			_length = 0;
+			data = new TYPE[_capacity];
 		}
 	}
 
@@ -30,10 +30,74 @@ public:
 		assert(allocateSize > 0);
 		if (data == nullptr)
 		{
-			capacity = allocateSize;
-			length = 0;
-			data = new TYPE[allocateSize];
+			_capacity = allocateSize;
+			_length = 0;
+			data = new TYPE[_capacity];
 		}
+	}
+
+	/** Copy constructor. */
+	Vector(Vector& vec)
+	{
+		if (data == nullptr)
+		{
+			_capacity = vec._capacity;
+			if (_capacity > 0)
+			{
+				data = new TYPE[_capacity];
+				
+				if (vec.data != nullptr)
+				{
+					_length = vec._length;
+					memcpy(data, vec.data, sizeof(data));
+				}
+			}
+			else
+			{
+				_capacity = 0;
+				_length = 0;
+			}
+		}
+	}
+
+	/** Destructor. */
+	~Vector()
+	{
+		RELEASE_ARRAY(data);
+		_length = 0;
+		_capacity = 0;
+	}
+
+	//======================================================================================
+	//======================================================================================
+	//======================================================================================
+
+
+
+	/** Reduce the vector length to 0 and sets the buffer to 0. */
+	void clear()
+	{
+		_length = 0;
+		memset(data, 0, sizeof(data));
+	}
+
+	//---------------------------
+	//--------		-------------
+	//---------------------------
+
+	int length()const
+	{
+		return _length;
+	}
+
+	int capacity()const
+	{
+		return _capacity;
+	}
+
+	TYPE* ptr()
+	{
+		return data;
 	}
 
 private:
@@ -42,6 +106,15 @@ private:
 	{
 		assert(size > 0);
 
+		_capacity = size;
+
+		TYPE* tmp = new TYPE[_capacity];
+
+		if (data != nullptr)
+			memcpy(tmp, data, sizeof(data));
+
+		RELEASE_ARRAY(data);
+		data = tmp;
 	}
 
 private:
@@ -49,10 +122,10 @@ private:
 	TYPE* data = nullptr;
 
 	/** Current ammount of data. May not be the array capacity but never more. */
-	int length = 0;
+	int _length = 0;
 
 	/** Current array capacity. May not be same as the array length but never less. */
-	int capacity = 0;
+	int _capacity = 0;
 
 };
 
