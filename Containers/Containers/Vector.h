@@ -69,7 +69,43 @@ public:
 	}
 
 	//======================================================================================
+
+	const TYPE& operator[](int index)const
+	{
+		assert(index >= 0 && index < capacity);
+		return  data[index];
+	}
+
+	TYPE& operator[](int index)
+	{
+		assert(index >= 0 && index < capacity);
+		return  data[index];
+	}
+
+	void operator+=(const Vector<TYPE>& vec)
+	{
+		uint size = _length + vec._length;
+
+		if (size > _capacity)
+			alloc(size + SMALL_MEM_BLOCK_SIZE);
+
+		for (uint i = 0; i < _vec._legth; ++i)
+		{
+			data[i + _length] = vec.data[i];
+			++_length;
+		}
+	}
+
 	//======================================================================================
+
+	void pushBack(TYPE& value)
+	{
+		if (_length + 1 > _capacity)
+			alloc(_length + SMALL_MEM_BLOCK_SIZE);
+
+		data[_length++] = value;
+	}
+
 	//======================================================================================
 
 
