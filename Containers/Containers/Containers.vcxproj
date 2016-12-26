@@ -219,6 +219,7 @@
     <ClInclude Include="MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="SList.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Vector.h" />
