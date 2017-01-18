@@ -11,7 +11,9 @@
 
 treeNode::treeNode(const AABB& _box) : box(_box)
 {
-	childs[0] = childs[1] = childs[2] = childs[3] = parent = nullptr;
+	parent = nullptr;
+	for (unsigned int i = 0; i < 4; ++i)
+		childs[i] = nullptr;
 }
 
 treeNode::~treeNode()
@@ -37,14 +39,9 @@ void treeNode::insert(GameObject* obj)
 
 void treeNode::erase(GameObject* obj)
 {
-	std::list<GameObject*>::iterator it = objects.begin();
-	while (it != objects.end())  //TODO: check for std find funcs
-	{
-		if ((*it) == obj)
-			it = objects.erase(it);
-		else
-			++it;
-	}
+	std::list<GameObject*>::iterator tmp = std::find(objects.begin(), objects.end(), obj);
+	if (tmp != objects.end())
+		objects.erase(tmp);
 
 	if (childs[0] != nullptr)
 		for (unsigned int i = 0; i < 4; ++i)
@@ -116,7 +113,12 @@ void treeNode::ajustNode()
 	while (it != objects.end())
 	{
 		GameObject* tmp = (*it);
-		if (intersectsAllChilds(tmp->aabb)) //TODO: optimize that
+
+		bool intersections[4];
+		for (unsigned int i = 0; i < 4; ++i)
+			intersections[i] = childs[i]->box.Intersects(tmp->aabb);
+
+		if (intersections[0] && intersections[1] && intersections[2] && intersections[3])
 			++it; //Let the object in parent if it intersects with all childs
 		else
 		{
