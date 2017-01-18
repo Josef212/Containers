@@ -23,6 +23,12 @@
     <Filter Include="Files\Helper\Math\Time">
       <UniqueIdentifier>{a4823a7d-5efd-4a41-a208-62719f83f22f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Files\Headers">
+      <UniqueIdentifier>{9499195c-d51b-48f1-840e-4507df5a1065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Source">
+      <UniqueIdentifier>{e484a31a-e244-4929-b082-a9f6d474b3aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -122,21 +128,15 @@
     <ClCompile Include="MathGeoLib\include\Time\Clock.cpp">
       <Filter>Files\Helper\Math\Time</Filter>
     </ClCompile>
-    <ClCompile Include="JQuadTree.cpp">
-      <Filter>Files</Filter>
-    </ClCompile>
     <ClCompile Include="JOcttree.cpp">
-      <Filter>Files</Filter>
+      <Filter>Files\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="JQuadTree.cpp">
+      <Filter>Files\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="String.h">
-      <Filter>Files</Filter>
-    </ClInclude>
     <ClInclude Include="Globals.h">
-      <Filter>Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
       <Filter>Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
@@ -144,9 +144,6 @@
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>Files\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="JQuadTree.h">
-      <Filter>Files</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\include\Algorithm\Random\LCG.h">
       <Filter>Files\Helper\Math\Algorithm</Filter>
@@ -329,13 +326,25 @@
       <Filter>Files\Helper\Math</Filter>
     </ClInclude>
     <ClInclude Include="JOcttree.h">
-      <Filter>Files</Filter>
+      <Filter>Files\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="JQuadTree.h">
+      <Filter>Files\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Point2D.h">
+      <Filter>Files\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Files</Filter>
+      <Filter>Files\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Files\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>Files\Headers</Filter>
     </ClInclude>
     <ClInclude Include="SList.h">
-      <Filter>Files</Filter>
+      <Filter>Files\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
