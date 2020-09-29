@@ -21,16 +21,16 @@ namespace GiGud::DataStructures
 		constexpr size_t Size() const { return _size; }
 		constexpr size_t MaxSize() const { return _size; }
 
-		TypePtr Data() const { return _data; }
-		//constexpr T* Data() const { return _data; }
+		constexpr TypePtr Data() { return _data; }
+		constexpr ConstTypePtr Data() const { return _data; }
 
-		TypeRef operator[] (SizeType index)
+		constexpr TypeRef operator[] (SizeType index) noexcept
 		{
 			GG_ASSERT(index < _size, "Index out of bounds");
 			return _data[index];
 		}
 
-		constexpr ConstTypePtr operator[] (SizeType index) const
+		constexpr ConstTypePtr operator[] (SizeType index) const noexcept
 		{
 			GG_ASSERT(index < _size, "Index out of bounds");
 			return _data[index];
