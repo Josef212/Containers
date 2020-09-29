@@ -2,26 +2,38 @@
 #include <Windows.h>
 
 #include <array>
-#include "Array.h"
+#include "Array/Array.h"
 
 using namespace GiGud::DataStructures;
 
 int main()
 {
-
-	std::array<int, 2> a;
-	Array <int, 3> b;
-	for (int i = 0; i < b.Size(); ++i)
+	Array <int, 3> testArray;
+	for (int i = 0; i < testArray.Size(); ++i)
 	{
-		b[i] = i;
+		testArray[i] = i + 1;
 	}
 
-	std::cout << "Hello world" << std::endl;
-
-	for (int i = 0; i < b.Size(); ++i)
+	std::cout << "Iterate with: Size base []" << std::endl;
+	for (int i = 0; i < testArray.Size(); ++i)
 	{
-		std::cout << b[i] << std::endl;
+		std::cout << testArray[i] << " ";
 	}
+	std::cout << std::endl;
+
+	std::cout << "Iterate with: Iterators" << std::endl;
+	for (auto& itr = testArray.begin(); itr != testArray.end(); ++itr)
+	{
+		std::cout << *itr << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "Iterate with: Foreach" << std::endl;
+	for (auto i : testArray)
+	{
+		std::cout << i << " ";
+	}
+	std::cout << std::endl;
 
 	system("pause");
 }

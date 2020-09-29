@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Utils.h"
+#include "../Utils.h"
+#include "ArrayUtils.h"
 
 namespace GiGud::DataStructures
 {
@@ -15,7 +16,8 @@ namespace GiGud::DataStructures
 		using TypeRef = T&;
 		using ConstTypeRef = const T&;
 
-		// TODO: Iterators types
+		// TODO: Reverse iterators types
+		using iterator = ArrayIterator<T, _size>;
 
 	public:
 		constexpr size_t Size() const { return _size; }
@@ -36,7 +38,11 @@ namespace GiGud::DataStructures
 			return _data[index];
 		}
 
-		// TODO: Iterators
+		// TODO: Reverse iterators
+
+		constexpr iterator begin() { return iterator(_data, 0); }
+
+		constexpr iterator end() { return iterator(_data, _size); }
 
 	private:
 		T _data[_size];
