@@ -2,6 +2,7 @@
 #include <Windows.h>
 
 #include <array>
+#include <vector>
 #include "Array/Array.h"
 
 using namespace GiGud::DataStructures;
